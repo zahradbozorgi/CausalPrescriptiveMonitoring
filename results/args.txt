@@ -1,0 +1,40 @@
+{
+    "data": "bpic17",
+    "dataroot": "/home/iverenich/tmp/realcause/datasets/bpic17.csv",
+    "saveroot": "/home/iverenich/tmp/realcause/results",
+    "train": true,
+    "eval": true,
+    "overwrite_reload": "",
+    "model_type": "tarnet",
+    "dist": "SigmoidFlow",
+    "dist_args": [
+        "ndim=5",
+        "base_distribution=uniform"
+    ],
+    "atoms": [
+        0.0
+    ],
+    "n_hidden_layers": 1,
+    "dim_h": 64,
+    "activation": "ReLU",
+    "kernel_t": "RBFKernel",
+    "kernel_y": "RBFKernel",
+    "var_dist": "MeanFieldVariationalDistribution",
+    "num_tasks": 32,
+    "lr": 0.001,
+    "batch_size": 64,
+    "num_epochs": 100,
+    "early_stop": true,
+    "patience": null,
+    "ignore_w": false,
+    "grad_norm": Infinity,
+    "test_size": null,
+    "w_transform": "Standardize",
+    "y_transform": "Normalize",
+    "train_prop": 0.5,
+    "val_prop": 0.1,
+    "test_prop": 0.4,
+    "seed": 123,
+    "comet": false,
+    "num_univariate_tests": 100
+}

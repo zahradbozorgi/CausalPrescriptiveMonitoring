@@ -1,0 +1,61 @@
+2021-04-15 13:11:02.144114 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=10, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:11:02.144478 / getting data: bpic17 
+2021-04-15 13:11:02.160985 / ate: None 
+2021-04-15 13:11:02.161066 / <models.distributions.distributions.MixedDistribution object at 0x7f3f50e67390> 
+2021-04-15 13:11:02.161124 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 10, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:11:02.161165 / model type: tarnet 
+2021-04-15 13:11:02.161248 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:11:27.456193 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=10, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:11:27.456690 / getting data: bpic17 
+2021-04-15 13:11:27.473213 / ate: None 
+2021-04-15 13:11:27.473291 / <models.distributions.distributions.MixedDistribution object at 0x7fc1db66f910> 
+2021-04-15 13:11:27.473346 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 10, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:11:27.473389 / model type: tarnet 
+2021-04-15 13:11:27.473476 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:11:43.901258 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=10, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:11:43.901720 / getting data: bpic17 
+2021-04-15 13:11:43.918437 / ate: None 
+2021-04-15 13:11:43.918515 / <models.distributions.distributions.MixedDistribution object at 0x7f3cc7e62cd0> 
+2021-04-15 13:11:43.918570 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 10, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:11:43.918612 / model type: tarnet 
+2021-04-15 13:11:43.918691 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:12:04.586986 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=10, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:12:04.587468 / getting data: bpic17 
+2021-04-15 13:12:04.604412 / ate: None 
+2021-04-15 13:12:04.604492 / <models.distributions.distributions.MixedDistribution object at 0x7fad45767c90> 
+2021-04-15 13:12:04.604548 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 10, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:12:04.604591 / model type: tarnet 
+2021-04-15 13:12:04.604675 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:12:26.165290 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=10, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:12:26.165765 / getting data: bpic17 
+2021-04-15 13:12:26.182332 / ate: None 
+2021-04-15 13:12:26.182419 / <models.distributions.distributions.MixedDistribution object at 0x7f9d213a0fd0> 
+2021-04-15 13:12:26.182476 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 10, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:12:26.182518 / model type: tarnet 
+2021-04-15 13:12:26.182607 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:13:02.059112 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=100, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:13:02.059616 / getting data: bpic17 
+2021-04-15 13:13:02.076291 / ate: None 
+2021-04-15 13:13:02.076373 / <models.distributions.distributions.MixedDistribution object at 0x7f17df662050> 
+2021-04-15 13:13:02.076431 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 100, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:13:02.076475 / model type: tarnet 
+2021-04-15 13:13:02.076561 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:13:02.582583 / Iteration 100: 0.013483293354511261 -1.9005635976791382 
+2021-04-15 13:13:02.584381 / Iteration 100 valid loss 107171.234375 
+2021-04-15 13:13:02.584440 / saving best-val-loss model 
+2021-04-15 13:13:06.273054 / Iteration 200: 0.0004415551375132054 -2.7186269760131836 
+2021-04-15 13:13:06.274900 / Iteration 200 valid loss 109457.8359375 
+2021-04-15 13:17:18.504184 / OrderedDict([('nll', 107171.234375), ('avg_t_pval', 0.53905650638857), ('avg_y_pval', 0.0014224017937306433), ('min_t_pval', 0.05423635102323976), ('min_y_pval', 4.0339917184439855e-07), ('q30_t_pval', 0.3908621700734173), ('q30_y_pval', 2.8238125289847815e-05), ('q50_t_pval', 0.5044334788235081), ('q50_y_pval', 9.896624685024058e-05), ('ate_exact', 0.33242963920931795), ('ate_noisy', 0.33194594830600527)]) 
+2021-04-15 13:17:49.078720 / Namespace(activation='ReLU', atoms=[0.0], batch_size=64, comet=False, data='bpic17', dataroot='/home/iverenich/tmp/realcause/datasets/bpic17.csv', dim_h=64, dist='SigmoidFlow', dist_args=['ndim=5', 'base_distribution=uniform'], early_stop=True, eval=True, grad_norm=inf, ignore_w=False, kernel_t='RBFKernel', kernel_y='RBFKernel', lr=0.001, model_type='tarnet', n_hidden_layers=1, num_epochs=100, num_tasks=32, num_univariate_tests=100, overwrite_reload='', patience=None, saveroot='/home/iverenich/tmp/realcause/results', seed=123, test_prop=0.4, test_size=None, train=True, train_prop=0.5, val_prop=0.1, var_dist='MeanFieldVariationalDistribution', w_transform='Standardize', y_transform='Normalize') 
+2021-04-15 13:17:49.079481 / getting data: bpic17 
+2021-04-15 13:17:49.096155 / ate: None 
+2021-04-15 13:17:49.096243 / <models.distributions.distributions.MixedDistribution object at 0x7f62bde16290> 
+2021-04-15 13:17:49.096303 / {'batch_size': 64, 'lr': 0.001, 'num_epochs': 100, 'verbose': True, 'print_every_iters': 100, 'optim': <class 'torch.optim.adam.Adam'>, 'eval_every': 100, 'plot_every': 100, 'p_every': 100, 'optim_args': {}} 
+2021-04-15 13:17:49.096349 / model type: tarnet 
+2021-04-15 13:17:49.096450 / {'n_hidden_layers': 1, 'dim_h': 64, 'activation': ReLU()} 
+2021-04-15 13:17:49.580750 / Iteration 100: 0.013483293354511261 -1.9005635976791382 
+2021-04-15 13:17:49.582485 / Iteration 100 valid loss 107171.234375 
+2021-04-15 13:17:49.582534 / saving best-val-loss model 
+2021-04-15 13:17:53.333654 / Iteration 200: 0.0004415551375132054 -2.7186269760131836 
+2021-04-15 13:17:53.335544 / Iteration 200 valid loss 109457.8359375 
+2021-04-15 13:22:09.581089 / OrderedDict([('nll', 107171.234375), ('avg_t_pval', 0.53905650638857), ('avg_y_pval', 0.0014224017937306433), ('min_t_pval', 0.05423635102323976), ('min_y_pval', 4.0339917184439855e-07), ('q30_t_pval', 0.3908621700734173), ('q30_y_pval', 2.8238125289847815e-05), ('q50_t_pval', 0.5044334788235081), ('q50_y_pval', 9.896624685024058e-05), ('ate_exact', 0.33242963920931795), ('ate_noisy', 0.33194594830600527)]) 

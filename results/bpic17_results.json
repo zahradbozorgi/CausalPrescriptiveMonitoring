@@ -1,0 +1,29 @@
+{
+    "bpic17_bpic17": {
+        "univariate_test_size": 12566,
+        "multivariate_test_size": 200,
+        "pehe": null,
+        "ate": null,
+        "ate_est": null,
+        "univariate_metrics": {
+            "avg_t_ks_pval": 0.7605026078191525,
+            "avg_y_ks_pval": 1.0,
+            "avg_t_es_pval": 0.6567792312557632,
+            "avg_y_es_pval": 0.9396733247167456
+        },
+        "multivariate_metrics_w": {
+            "avg_w1_pval": 0.089,
+            "avg_w2_pval": 0.024,
+            "avg_fr_pval": 0.5979999899864197,
+            "avg_knn_pval": 0.796999990940094,
+            "avg_energy_pval": 0.16899999976158142
+        },
+        "multivariate_metrics_no_w": {
+            "avg_w1_pval": 0.432,
+            "avg_w2_pval": 0.346,
+            "avg_fr_pval": 1.0,
+            "avg_knn_pval": 0.2919999957084656,
+            "avg_energy_pval": 0.45399999618530273
+        }
+    }
+}
