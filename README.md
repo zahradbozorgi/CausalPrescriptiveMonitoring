@@ -1,5 +1,4 @@
-
-##Prescriptive Monitoring based on Causal Effect Estimation
+# Prescriptive Monitoring based on Causal Effect Estimation
 This repository supplementary material for the article *Prescriptive Process Monitoring based on
 Causal Effect Estimation*.
 This repository contains code from [RealCause](https://github.com/bradyneal/realcause), a realistic benchmark for different causal inference methods. The realism comes from fitting generative models to data with an assumed causal structure. 
