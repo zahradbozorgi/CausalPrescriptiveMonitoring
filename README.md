@@ -1,156 +1,193 @@
-This repository contains supplementary material for the article "[Predictive Business Process Monitoring with Structured and Unstructured Data](https://link.springer.com/chapter/10.1007/978-3-319-45348-4_23)" by [Irene Teinemaa](https://irhete.github.io/), [Marlon Dumas](http://kodu.ut.ee/~dumas/), [Fabrizio Maria Maggi](https://scholar.google.nl/citations?user=Jo9fNKEAAAAJ&hl=en&oi=sra), and [Chiara Di Francescomarino](https://shell-static.fbk.eu/people/dfmchiara/), which is published in the proceedings of the International Conference on Business Process Management 2016.
+#Prescriptive Monitoring based on Causal Effect Estimation
+This repository supplementary material for the article "[Prescriptive Process Monitoring based on
+Causal Effect Estimation]". This paper contains code from "[RealCause] (https://github.com/bradyneal/realcause)", a realistic benchmark for different causal inference methods. The realism comes from fitting generative models to data with an assumed causal structure. 
 
-## Reference
-If you use the code from this repository, please cite the original paper:
+
+## Installation
+Once you've created a virtual environment (e.g. with conda, virtualenv, etc.) install the required packages:
+
 ```
-@inproceedings{teinemaa2016predictive,
-  title={Predictive Business Process Monitoring with Structured and Unstructured Data},
-  author={Teinemaa, Irene and Dumas, Marlon and Maggi, Fabrizio Maria and Di Francescomarino, Chiara},
-  booktitle={International Conference on Business Process Management},
-  pages={401--417},
-  year={2016},
-  organization={Springer}
-}
+pip install -r requirements.txt
 ```
 
-## Dependencies
+## Do your own analysis on our causal-predictive metric dataset
 
-* python 3.5
-* [NumPy](http://www.numpy.org/)
-* [pandas](http://pandas.pydata.org/)
-* [scikit-learn](http://scikit-learn.org/stable/index.html)
-* [gensim](https://radimrehurek.com/gensim/) (for LDA and doc2vec models)
-* [estnltk](https://github.com/estnltk/estnltk) (for lemmatization in Estonian language)
+We trained a total of 1568 different estimators.
+We recorded all of the predictive metrics that sklearn provides (e.g. RMSE, MAE, precision, recall, etc.) and many different causal metrics that RealCause provides (e.g. ATE bias, ATE RMSE, PEHE, etc.).
+Taking all of these metrics plus estimator specification (meta-estimator, outcome model, and propensity score model) yields a total of 77 columns.
+Cells are "nan" where that cell doesn't make sense (e.g. the propensity score model cell for a standardization estimator, a regression metric for an IPW estimator, a classification metric for a standardization estimator, etc.).
 
+We provide this dataset in [causal-predictive-analysis.csv](https://github.com/bradyneal/causal-benchmark/blob/master/causal-predictive-analysis.csv).
+We did one analysis on this dataset in Section 6 of our paper (in [experiments/uai_analysis.py](https://github.com/bradyneal/causal-benchmark/blob/master/experiments/uai_analysis.py)).
+However, there are many more possible analyses that can be run on it.
+For example, one might want to fit machine learning models to predict causal metrics from predictive metrics and use something like [SHAP](https://github.com/slundberg/shap) to interpret the associations these models find.
+To get started, simply load the dataset from [causal-predictive-analysis.csv](https://github.com/bradyneal/causal-benchmark/blob/master/causal-predictive-analysis.csv).
+Example loading:
 
+```
+import pandas as pd
 
-## Preprocessing
-
-Before using the text models, textual data should be lemmatized. The example below constructs a list of lemmatized documents (`docs_as_lemmas`), given a list of raw documents (`corpus`), using a lemmatizer for Estonian language.
-
-```python
-from estnltk import Text
-
-docs_as_lemmas = []
-for document in corpus:
-    text = Text(document.lower())
-    docs_as_lemmas.append(" ".join(text.lemmas))
-
+df = pd.read_csv('causal-predictive-analysis.csv')
 ```
 
 
-## Sequence encoding
+## Using RealCause generative models
 
-The `SequenceEncoder` enables encoding data as a complex sequence using index-based encoding. The input data should be in the following format:
+### Sampling
 
-    case_id;event_nr;class_label;dynamic_attr1;...;dynamic_attr_n;static_attr1;...;static_attr_h
-    
-In other words, each row in the input data should correspond to a given event (determined by `event_nr`) in a given case (determined by `case_id`). Each such event should be accompanied with a class label (`class_label`) that expresses the outcome of a case. Also, each event may carry an arbitrary number of static and dynamic data attributes. Both static and dynamic attributes may contain unstructured data, however, `SequenceEncoder` does not perform text processing by itself.
-
-The output of sequence encoder is as follows:
-    
-    case_id;class_label;dynamic_attr1_event_1;...;dynamic_attr1_event_m;...;dynamic_attr_n_event_1;...;dynamic_attr_n_event_m;static_attr1;...;static_attr_h
-
-When using `SequenceEncoder`, one should specify columns that represent the case id, event number, class label, dynamic attributes, and static attributes. Also, columns that should be interpreted as categorical values should be specified. Number of events that should be used for encoding the sequence (prefix length) is specified as the `nr_events` parameter. Cases that are shorter than `nr_events` are discarded.  Additionally, sequence encoder enables oversampling the dataset when `fit` is called (i.e. the training set), using `minority_label` as the class that should be oversampled. If `fillna=True`, all NA values are filled with zeros. Example usage of the sequence encoder is illustrated below.
-
-```python
-from SequenceEncoder import SequenceEncoder
-
-encoder = SequenceEncoder(case_id_col="case_id", event_nr_col="event_nr", label_col="class_label", 
-    static_cols=["static1", "static2", "static3"], dynamic_cols=["dynamic1", "dynamic2"], 
-    cat_cols=["static2", "dynamic1"], nr_events=3, oversample_fit=True, minority_label="unsuccessful", 
-    fillna=True, random_state=22)
-train_encoded = encoder.fit_transform(train) # oversampled
-test_encoded = encoder.transform(test)
-```
-
-
-## Text models
-
-The text models are implemented as custom transformers, which include `fit`, `transform`, and `fit_transform` methods. 
-
-Four transformers are implemented:
-* `LDATransformer` - Latent Dirichlet Allocation topic modeling (utilizes Gensim's implementation).
-* `PVTransformer` - Paragraph Vector (utilizes Gensim's implementation -- doc2vec)
-* `BoNGTransformer` - bag-of-n-grams.
-* `NBLogCountRatioTransformer` - bag-of-n-grams weighted with Naive Bayes log count ratios.
-
-Example usage of the text transformers is shown below. `X` stands for a pandas `DataFrame` consisting of one or more textual columns, while `y` contains the target variable (class labels). Note that `X` should contain textual columns only.
-
-```python
-from TextTransformers import LDATransformer, PVTransformer, BoNGTransformer, NBLogCountRatioTransformer
-
-lda_transformer = LDATransformer(num_topics=20, tfidf=False, passes=3, iterations=700, random_seed=22)
-lda_transformer.fit(X)
-lda_transformer.transform(X)
-
-pv_transformer = PVTransformer(size=16, window=8, min_count=1, workers=1, alpha=0.025, dm=1, epochs=1, random_seed=22)
-pv_transformer.fit(X)
-pv_transformer.transform(X)
-
-bong_transformer = BoNGTransformer(ngram_min=1, ngram_max=1, tfidf=False, nr_selected=100)
-bong_transformer.fit(X, y)
-bong_transformer.transform(X)
-
-nb_transformer = NBLogCountRatioTransformer(ngram_min=1, ngram_max=1, alpha=1.0, nr_selected=100, pos_label="positive")
-nb_transformer.fit(X, y)
-nb_transformer.transform(X)
+To see most of the methods you can use with these generative models, see the [BaseGenModel class](https://github.com/bradyneal/causal-benchmark/blob/master/models/base.py#L56).
+After you've loaded a generative model `model`, you can sample from it as follows:
 
 ```
-
-
-## Predictive model
-
-The `PredictiveModel` class enables building a predictive model for a fixed prefix length, starting from raw data sets. The initializer expects as input the `text_transformer_type` (one of {`None`, "LDATransformer", "PVTransformer", "BoNGTransformer", "NBLogCountRatioTransformer"}) and classifier type `cls_method`, where "rf" stands for sklearn's `RandomForestClassifier` and "logit" stands for `LogisticRegression`. Furthermore, the prefix length should be predefined in `nr_events`, the names of relevant columns as `case_id_col`, `label_col`, `text_col`, and label of the positive class (`pos_label`). Additional arguments that should be forwarded to the `SequenceEncoder`, text transformer, and classifier should be given as `encoder_kwargs`, `transformer_kwargs`, and `cls_kwargs`, respectively (see sections above for details of these arguments).
-
-Example usage:
-
-```python
-from PredictiveModel import PredictiveModel
-
-encoder_kwargs = {"event_nr_col":event_nr_col, "static_cols":static_cols, "dynamic_cols":dynamic_cols,
-                  "cat_cols":cat_cols,"oversample_fit":False, "minority_label":"unsuccessful",
-                  "fillna":True, "random_state":22}
-transformer_kwargs = {"ngram_max":ngram_max, "alpha":alpha, "nr_selected":nr_selected, 
-                      "pos_label":pos_label}
-cls_kwargs = {"n_estimators":500, "random_state":22}
-
-pred_model = PredictiveModel(nr_events=nr_events, case_id_col=case_id_col, 
-                             label_col=label_col, pos_label=pos_label, text_col=text_col, 
-                             text_transformer_type="NBLogCountRatioTransformer", cls_method="rf",
-                             encoder_kwargs=encoder_kwargs, transformer_kwargs=transformer_kwargs, 
-                             cls_kwargs=cls_kwargs)
-
-pred_model.fit(train)
-predictions_proba = pred_model.predict_proba(test)
+w, t, y = model.sample()
 ```
 
-    
+We show how to use the knobs below.
+See further documentation for the sample method in [its docstring](https://github.com/bradyneal/causal-benchmark/blob/master/models/base.py#L322).
 
-## Predictive monitoring
+### Using knobs
 
-The `PredictiveMonitor` trains multiple `PredictiveModel`s (one for each possible prefix length) that consitute the offline component of the predictive monitoring framework. The arguments are the same as for `PredictiveModel`, with the exception of `event_nr_col` instead of `nr_events`. In the test phase, each case is monitored until a sufficient confidence level is achieved or the case ends. Possible arguments for testing function are a list of `confidences` to produce the results for, boolean `evaluate` if different metrics should be calculated, `output_filename` if the results should be written to an external file, and `performance_output_filename` if the calculation times should be written to an external file. 
+We currently provide three knobs as parameters to the `sample()` method:
 
-Example usage:
+* `overlap`
+	- If 1, leave treatment untouched.
+	- If 0, push p(T = 1 | w) to 0 for all w where p(T = 1 | w) < 0.5 and push p(T = 1 | w) to 1 for all w where p(T = 1 | w) >= 0.5.
+	- If 0 < overlap < 1, do a linear interpolation of the above.
+* `causal_effect_scale`: scale of the causal effect (size of ATE)
+* `deg_hetero`: degree of heterogeneity (between 0 and 1). When `deg_hetero=1`, y<sub>1</sub> and y<sub>0</sub> remain unchanged. When `deg_hetero=0`,
+            y<sub>1</sub> - y<sub>0</sub> is the same for all individuals.
 
-```python
-from PredictiveMonitor import PredictiveMonitor
+## Training RealCause generative models
 
-encoder_kwargs = {"event_nr_col":event_nr_col, "static_cols":static_cols, "dynamic_cols":dynamic_cols,
-                  "cat_cols":cat_cols, "oversample_fit":False, "minority_label":"unsuccessful", 
-                  "fillna":True, "random_state":22}
-transformer_kwargs = {"ngram_max":ngram_max, "alpha":alpha, "nr_selected":nr_selected, 
-                  "pos_label":pos_label}
-cls_kwargs = {"n_estimators":500, "random_state":22}
 
-predictive_monitor = PredictiveMonitor(event_nr_col=event_nr_col, case_id_col=case_id_col,
-                                      label_col=label_col, pos_label=pos_label, text_col=text_col,
-                                      text_transformer_type="NBLogCountRatioTransformer", cls_method="rf",
-                                      encoder_kwargs=encoder_kwargs, transformer_kwargs=transformer_kwargs, 
-                                      cls_kwargs=cls_kwargs)
+<!--### Code structure
 
-predictive_monitor.train(train)
-predictive_monitor.test(test, confidences=[0.5, 0.75, 0.9], evaluate=True, output_filename="example_output.txt")
+Our deep generative model assumes the following factorization
+
+```
+p(w, t, y) = p(w)p(t|w)p(y|t,w)
 ```
 
-Real examples of predictive monitoring can be found in folder "experiments".
+so that a random sample of the tuple (w,t,y) can be drawn from the joint distribution via ancestral sampling. 
+
+We let p(w) be the empirical distribution of the training set, and parameterize p(t|w) and p(y|t,w) using
+neural networks (or other conditional generative models such as Gaussian processes). 
+The model is defined in `models/tarnet.py`. The neural networks defined there will output the parameters for 
+the distribution classes defined in `models/distributions` and compute the negative log likelihood as the loss function.
+
+
+### Training loop-->
+
+The main training script is `train_generator.py`, which will run one experiment for
+a set of hyperparameter (hparam) configuration. The hparams include `--batch_size`, `--num_epochs`, `--lr`, etc. 
+Here's an example command line:
+
+```bash
+python train_generator.py --data "lalonde" --dataroot [path-to-ur-data-folder] --saveroot [where-to-save-stuff] \
+    --dist "FactorialGaussian" --n_hidden_layers 1 --dim_h 128 --w_transform "Standardize" --y_transform "Normalize"
+```
+
+* `--data` <br>
+	This argument specifies the dataset. Options:
+	- "lalonde" or "lalonde_psid" - LaLonde PSID dataset
+	- "lalonde_cps" - LaLonde CPS dataset
+	- "lalonde_rct" - LaLonde RCT dataset
+	- "twins" - Twins dataset
+	- "ihdp" - IHDP dataset
+	- "lbidd\_\<link\>\_\<n\>" - LBIDD dataset with link function \<link\> and number of samples \<n\> <br>
+		Valid \<link\> options: linear, quadratic, cubic, exp, and log <br>
+		Valid \<n\> options: 1k, 2.5k, 5k, 10k, 25k, and 50k <br>
+		Example: "lbidd\_cubic\_10k" yields an LBIDD dataset wth a cubic link function and 10k samples
+
+
+* `--x_transform` <br>
+This argument will tell the model to preprocess the covariate (W) or the outcome (Y) via "Standarization" 
+(so that after the transformation the training data is centered and has unit variance) or via "Normalization"
+(so that after the transformation the training data will range from 0 to 1); the preprocessor uses training set's
+statistics. 
+<br>
+If "Normalize" is applied to the outcome (Y), we further clamp the sample outcome value at 0 and 1, so that we do not
+generate samples outside of the min-max range of the training set.
+
+* `--dist` <br>
+This argument determines which distribution to be used for the outcome variable 
+(we assume binary / Bernoulli treatment for this training script). To see a list of available distributions, run
+```bash
+python -c "from models.distributions import distributions; print(distributions.BaseDistribution.dist_names)"
+['Bernoulli', 'Exponential', 'FactorialGaussian', 'LogLogistic', 'LogNormal', 'SigmoidFlow', 'MixedDistribution']
+```
+
+In most of our experiments, we use a more flexible family of distributions called normalizing flows; 
+more specifically we use the [Sigmoidal Flow](https://arxiv.org/abs/1804.00779), which is a universal density model 
+suitable for black-box Auto-ML. It is similar to mixture of distributions (like Gaussian mixture model), which 
+has the ability to model multimodal distributions. 
+
+In some cases (such as the Lalonde dataset), there might be discrete "atoms" presented in the dataset, which means the 
+outcome variable is mixed-continuous-discrete-valued. We then have a special argument `--atoms` to model the probability that 
+the outcome takes certain discrete values (given W and T). 
+
+Concretely,
+
+```bash
+python train_generator.py --data "lalonde" ... \
+    --dist "SigmoidFlow" \
+    --dist_args "ndim=10" "base_distribution=gaussian" \ 
+    --atoms 0 0.2
+```
+
+Note that the atom values (and distribution arguments) are separaeted by white space. 
+For Sigmoidal Flow, there is an additional option for distribution arguments, whose
+key (e.g. what base distribution to use for the flow) and value (e.g. gaussian) are separated by `=`. 
+Valid choices for base distributions are `uniform` or `gaussian` (or `normal`). 
+The `ndim` argument correspond to the "number of hidden units" of the sigmoid flow 
+(think of it as an invertible 2-layer MLP). It is analogous to the number of mixture components of 
+a mixture of Gaussian model.
+
+
+## Training loop 
+We also provide a convenient hyperparameter search script called `train_generator_loop.py`. 
+It will load the `HP` object from `hparams.py`, and create a list of hparams by taking the Cartesian product of 
+of the elements of `HP`. It will then spawn multiple threads to run the experiments in parallel. 
+
+Here's an example using the default `hparams.py` (remember to change the `--dataroot`!):
+
+```bash
+python train_generator_loop.py --exp_name "test_flow_and_atoms" --num_workers=2
+```
+
+Note that `--saveroot` will be ignored by this training loop, since it will create an experiment folder and then create 
+multiple hparam folders inside; and `--saveroot` will then be set to these folders. In the above example, there will be
+4 of them:
+
+
+```text
+├── test_flow_and_atoms
+│   ├── dist_argsndim=5+base_distribution=uniform-atoms
+│   └── dist_argsndim=5+base_distribution=uniform-atoms0.0
+│   └── dist_argsndim=10+base_distribution=normal-atoms
+│   └── dist_argsndim=10+base_distribution=normal-atoms0.0
+```
+
+Once an experiment (for a single hparam setting) is finished, you should see 5 files in the hparam folder (saveroot).
+
+```text
+├── test_flow_and_atoms
+│   ├── dist_argsndim=5+base_distribution=uniform-atoms
+│   │   ├── args.txt
+│   │   ├── log.txt
+│   │   ├── model.pt
+│   │   ├── all_runs.txt
+│   │   ├── summary.txt
+```
+
+* args.txt: arguments of the experiment
+* log.txt: all the "prints" of the experiment are redirected to this log file
+* model.py: early-stopped model checkpoint
+* all_runs.txt: 
+univariate evaluation metrics (i.e. p values & nll; by default there will be `--num_univariate_tests=100` entries)
+* summary.txt: summary statistics of all_runs.txt (mean and some quantiles).
+
+## Re-running our causal estimator experiments
+
+To re-run the causal estimator benchmarking in our paper, run [experiments/uai_experiments.py](https://github.com/bradyneal/causal-benchmark/blob/master/experiments/uai_experiments.py). To re-run our correlation analysis between causal and predictive metrics, run [experiments/uai_analysis.py](https://github.com/bradyneal/causal-benchmark/blob/master/experiments/uai_analysis.py).
+ 
