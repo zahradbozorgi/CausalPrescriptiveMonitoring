@@ -11,26 +11,6 @@ Once you've created a virtual environment (e.g. with conda, virtualenv, etc.) in
 pip install -r requirements.txt
 ```
 
-## Do your own analysis on our causal-predictive metric dataset
-
-We trained a total of 1568 different estimators.
-We recorded all of the predictive metrics that sklearn provides (e.g. RMSE, MAE, precision, recall, etc.) and many different causal metrics that RealCause provides (e.g. ATE bias, ATE RMSE, PEHE, etc.).
-Taking all of these metrics plus estimator specification (meta-estimator, outcome model, and propensity score model) yields a total of 77 columns.
-Cells are "nan" where that cell doesn't make sense (e.g. the propensity score model cell for a standardization estimator, a regression metric for an IPW estimator, a classification metric for a standardization estimator, etc.).
-
-We provide this dataset in [causal-predictive-analysis.csv](https://github.com/bradyneal/causal-benchmark/blob/master/causal-predictive-analysis.csv).
-We did one analysis on this dataset in Section 6 of our paper (in [experiments/uai_analysis.py](https://github.com/bradyneal/causal-benchmark/blob/master/experiments/uai_analysis.py)).
-However, there are many more possible analyses that can be run on it.
-For example, one might want to fit machine learning models to predict causal metrics from predictive metrics and use something like [SHAP](https://github.com/slundberg/shap) to interpret the associations these models find.
-To get started, simply load the dataset from [causal-predictive-analysis.csv](https://github.com/bradyneal/causal-benchmark/blob/master/causal-predictive-analysis.csv).
-Example loading:
-
-```
-import pandas as pd
-
-df = pd.read_csv('causal-predictive-analysis.csv')
-```
-
 
 ## Using RealCause generative models
 
@@ -48,7 +28,7 @@ See further documentation for the sample method in [its docstring](https://githu
 
 ### Using knobs
 
-We currently provide three knobs as parameters to the `sample()` method:
+RealCause currently provides three knobs as parameters to the `sample()` method:
 
 * `overlap`
 	- If 1, leave treatment untouched.
@@ -79,7 +59,7 @@ the distribution classes defined in `models/distributions` and compute the negat
 
 ### Training loop-->
 
-The main training script is `train_generator.py`, which will run one experiment for
+To create the artificial logs that we use in our method selection phase, the generative model must be trained on the original event log. The main training script is `train_generator.py`, which will run one experiment for
 a set of hyperparameter (hparam) configuration. The hparams include `--batch_size`, `--num_epochs`, `--lr`, etc. 
 Here's an example command line:
 
