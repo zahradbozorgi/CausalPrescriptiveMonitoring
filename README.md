@@ -70,6 +70,12 @@ python train_generator.py --data "lalonde" --dataroot [path-to-ur-data-folder] -
 
 * `--data` <br>
 	This argument specifies the dataset. Options:
+	- "bpic16" or - Business Process Intelligence Challenge 2016
+	- "bpic17" or - Business Process Intelligence Challenge 2017
+	- "bpic19" or - Business Process Intelligence Challenge 2019
+	- "bpic20" or - Business Process Intelligence Challenge 2020
+	
+	The following options also exist as part of the RealCause tool:
 	- "lalonde" or "lalonde_psid" - LaLonde PSID dataset
 	- "lalonde_cps" - LaLonde CPS dataset
 	- "lalonde_rct" - LaLonde RCT dataset
