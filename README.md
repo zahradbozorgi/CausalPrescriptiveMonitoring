@@ -109,20 +109,20 @@ more specifically we use the [Sigmoidal Flow](https://arxiv.org/abs/1804.00779),
 suitable for black-box Auto-ML. It is similar to mixture of distributions (like Gaussian mixture model), which 
 has the ability to model multimodal distributions. 
 
-In some cases (such as the Lalonde dataset), there might be discrete "atoms" presented in the dataset, which means the 
+<!--In some cases (such as the Lalonde dataset), there might be discrete "atoms" presented in the dataset, which means the 
 outcome variable is mixed-continuous-discrete-valued. We then have a special argument `--atoms` to model the probability that 
 the outcome takes certain discrete values (given W and T). 
 
 Concretely,
 
 ```bash
-python train_generator.py --data "lalonde" ... \
+python train_generator.py --data "bpic" ... \
     --dist "SigmoidFlow" \
     --dist_args "ndim=10" "base_distribution=gaussian" \ 
     --atoms 0 0.2
 ```
 
-Note that the atom values (and distribution arguments) are separaeted by white space. 
+Note that the atom values (and distribution arguments) are separaeted by white space.-->
 For Sigmoidal Flow, there is an additional option for distribution arguments, whose
 key (e.g. what base distribution to use for the flow) and value (e.g. gaussian) are separated by `=`. 
 Valid choices for base distributions are `uniform` or `gaussian` (or `normal`). 
@@ -132,8 +132,8 @@ a mixture of Gaussian model.
 
 
 ## Training loop 
-We also provide a convenient hyperparameter search script called `train_generator_loop.py`. 
-It will load the `HP` object from `hparams.py`, and create a list of hparams by taking the Cartesian product of 
+The hyperparameter search script called `train_generator_loop.py` was used to find the best hyperparameters. 
+This script loads the `HP` object from `hparams.py`, and creates a list of hparams by taking the Cartesian product of 
 of the elements of `HP`. It will then spawn multiple threads to run the experiments in parallel. 
 
 Here's an example using the default `hparams.py` (remember to change the `--dataroot`!):
